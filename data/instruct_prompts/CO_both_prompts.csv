@@ -1,0 +1,4 @@
+instruction
+"I disagree with the generated report, I think the patient has <add> but does not have <rem>. Please adapt the report."
+"You forgot to mention <add>. Also, they patient does not have <rem>, please remove this."
+"Please adapt the report with the following corrections: Include <add> and remove <rem>."

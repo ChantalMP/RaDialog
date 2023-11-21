@@ -1,0 +1,67 @@
+# Copyright (c) 2022, salesforce.com, inc.
+# All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause
+# For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+
+model:
+  arch: blip2 #adapted for single GPU
+  model_type: pretrain
+  load_pretrained: False #pretrain from scratch
+  freeze_vit: True
+  vit_model: biovil
+  num_query_token: 32
+  max_txt_len: 256
+
+datasets:
+  mimic_cxr: # name of the dataset builder
+    vis_processor:
+      train:
+        name: "blip2_image_train"
+        image_size: 448 #364
+      eval:
+        name: "blip_image_eval"
+        image_size: 448 #364
+    text_processor:
+      train:
+        name: "my_blip_caption"
+        prompt: ''
+      eval:
+        name: "my_blip_caption"
+        prompt: ''
+
+run:
+  task: image_text_pretrain_eval
+  project_name: radChat_PT
+  wandb_entity: chantal-pellegrini
+  run_name: stage1_pt_instruct_blip_origlr_img448
+  # optimizer
+  lr_sched: "linear_warmup_cosine_lr"
+  init_lr: 1e-4
+  min_lr: 1e-5 #1e-5
+  warmup_lr: 1e-6
+
+  weight_decay: 0.05
+  max_epoch: 100
+  batch_size_train: 32 #100
+  batch_size_eval: 32 #64
+  num_workers: 8 #4
+  warmup_steps: 1000 #5000
+
+  max_len: 256 # how much tokens do general reports have: mean len (characters): 485 -> max: 2500 -> in tokens: 1000 chars are around 250 tokens (only 1.2% of reports are longer than this)
+  min_len: 8
+  num_beams: 1
+
+  seed: 42
+  output_dir: "output/BLIP2/Pretrain_stage1"
+
+  amp: True
+  #resume_ckpt_path: ""
+
+  evaluate: False
+  train_splits: [ "train" ]
+  valid_splits: [ "val" ]
+
+  device: "cuda"
+  world_size: 1
+  dist_url: "env://"
+  distributed: False

@@ -1,0 +1,6 @@
+instruction
+"You mentioned <rem>, but I don't think this is the case. Correct the report."
+"There is no <rem>, please adapt the report accordingly."
+"The patient does not have <rem>. Update the report."
+"Write a corrected report, where you don't mention <rem>."
+"I disagree with your report, I think there is no <rem>, correct this."

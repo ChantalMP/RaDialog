@@ -1,0 +1,6 @@
+{
+  "description": "Template used for Vicuna v1.1. preparation already in code.",
+  "prompt_input": "{instruction} {input}",
+  "prompt_no_input": "{instruction}",
+  "response_split": "ASSISTANT:"
+}

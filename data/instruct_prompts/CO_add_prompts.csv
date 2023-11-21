@@ -1,0 +1,7 @@
+instruction
+"The patient also has <add>, correct the report."
+"You forgot to mention <add>. Please update the report."
+"Please provide an adapted report. Mention <add>. Don’t make any other changes."
+"I think the patient has some <add>. Please add this to the report."
+"There is <add>, which you have missed. Please rewrite the report."
+"I think you missed <add>, please provide a corrected report."

@@ -1,0 +1,50 @@
+[
+     {
+        "instruction": "A chat between a curious user and an artificial intelligence assistant acting as an experienced radiologist. The assistant gives professional, detailed, and polite answers to the user's questions. USER: Image information: <IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG>. Predicted Findings: fracture. You are to act as a radiologist and write the finding section of a chest x-ray radiology report for this X-ray image and the given predicted findings. Write in the style of a radiologist, write one fluent text without enumeration, be concise and don't provide explanations or reasons. ASSISTANT:",
+        "input": "",
+        "output": "The cardiac, mediastinal and hilar contours are normal. Pulmonary vasculature is normal.  Lungs are clear. No pleural effusion or pneumothorax is present. Multiple clips are again seen projecting over the left breast.  Remote left-sided rib fractures are also re- demonstrated.",
+        "dicom": "2a2277a9-b0ded155-c0de8eb9-c124d10e-82c5caab"
+    },
+    {
+        "instruction": "A chat between a curious user and an artificial intelligence assistant acting as an experienced radiologist. The assistant gives professional, detailed, and polite answers to the user's questions. USER: Image information: <IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG>. Predicted Findings: fracture. You are to act as a radiologist and write the finding section of a chest x-ray radiology report for this X-ray image and the given predicted findings. Write in the style of a radiologist, write one fluent text without enumeration, be concise and don't provide explanations or reasons. ASSISTANT:",
+        "input": "",
+        "output": "The cardiac, mediastinal and hilar contours are normal. Pulmonary vasculature is normal.  Lungs are clear. No pleural effusion or pneumothorax is present. Multiple clips are again seen projecting over the left breast.  Remote left-sided rib fractures are also re- demonstrated.",
+        "dicom": "e084de3b-be89b11e-20fe3f9f-9c8d8dfe-4cfd202c"
+    },
+    {
+        "instruction": "A chat between a curious user and an artificial intelligence assistant acting as an experienced radiologist. The assistant gives professional, detailed, and polite answers to the user's questions. USER: Image information: <IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG>. Predicted Findings: fracture. You are to act as a radiologist and write the finding section of a chest x-ray radiology report for this X-ray image and the given predicted findings. Write in the style of a radiologist, write one fluent text without enumeration, be concise and don't provide explanations or reasons. ASSISTANT:",
+        "input": "",
+        "output": "Single frontal view of the chest provided.  There is no focal consolidation, effusion, or pneumothorax. The cardiomediastinal silhouette is normal.  Again seen are multiple clips projecting over the left breast and remote left-sided rib fractures.  No free air below the right hemidiaphragm is seen.",
+        "dicom": "68b5c4b1-227d0485-9cc38c3f-7b84ab51-4b472714"
+    },
+    {
+        "instruction": "A chat between a curious user and an artificial intelligence assistant acting as an experienced radiologist. The assistant gives professional, detailed, and polite answers to the user's questions. USER: Image information: <IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG>. Predicted Findings: fracture. You are to act as a radiologist and write the finding section of a chest x-ray radiology report for this X-ray image and the given predicted findings. Write in the style of a radiologist, write one fluent text without enumeration, be concise and don't provide explanations or reasons. ASSISTANT:",
+        "input": "",
+        "output": "Single frontal view of the chest provided.  There is no focal consolidation, effusion, or pneumothorax. The cardiomediastinal silhouette is normal.  Again seen are multiple clips projecting over the left breast and remote left-sided rib fractures.  No free air below the right hemidiaphragm is seen.",
+        "dicom": "fffabebf-74fd3a1f-673b6b41-96ec0ac9-2ab69818"
+    },
+    {
+        "instruction": "A chat between a curious user and an artificial intelligence assistant acting as an experienced radiologist. The assistant gives professional, detailed, and polite answers to the user's questions. USER: Image information: <IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG>. Predicted Findings: lung lesion. You are to act as a radiologist and write the finding section of a chest x-ray radiology report for this X-ray image and the given predicted findings. Write in the style of a radiologist, write one fluent text without enumeration, be concise and don't provide explanations or reasons. ASSISTANT:",
+        "input": "",
+        "output": "There is no focal consolidation, pleural effusion or pneumothorax.  Bilateral nodular opacities that most likely represent nipple shadows. The cardiomediastinal silhouette is normal.  Clips project over the left lung, potentially within the breast. The imaged upper abdomen is unremarkable. Chronic deformity of the posterior left sixth and seventh ribs are noted.",
+        "dicom": "02aa804e-bde0afdd-112c0b34-7bc16630-4e384014"
+    },
+    {
+        "instruction": "A chat between a curious user and an artificial intelligence assistant acting as an experienced radiologist. The assistant gives professional, detailed, and polite answers to the user's questions. USER: Image information: <IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG>. Predicted Findings: lung lesion. You are to act as a radiologist and write the finding section of a chest x-ray radiology report for this X-ray image and the given predicted findings. Write in the style of a radiologist, write one fluent text without enumeration, be concise and don't provide explanations or reasons. ASSISTANT:",
+        "input": "",
+        "output": "There is no focal consolidation, pleural effusion or pneumothorax.  Bilateral nodular opacities that most likely represent nipple shadows. The cardiomediastinal silhouette is normal.  Clips project over the left lung, potentially within the breast. The imaged upper abdomen is unremarkable. Chronic deformity of the posterior left sixth and seventh ribs are noted.",
+        "dicom": "174413ec-4ec4c1f7-34ea26b7-c5f994f8-79ef1962"
+    },
+    {
+        "instruction": "A chat between a curious user and an artificial intelligence assistant acting as an experienced radiologist. The assistant gives professional, detailed, and polite answers to the user's questions. USER: Image information: <IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG>. Predicted Findings: fracture. You are to act as a radiologist and write the finding section of a chest x-ray radiology report for this X-ray image and the given predicted findings. Write in the style of a radiologist, write one fluent text without enumeration, be concise and don't provide explanations or reasons. ASSISTANT:",
+        "input": "",
+        "output": "The lungs are clear of focal consolidation, pleural effusion or pneumothorax.  The heart size is normal.  The mediastinal contours are normal. Multiple surgical clips project over the left breast, and old left rib fractures are noted.",
+        "dicom": "ea030e7a-2e3b1346-bc518786-7a8fd698-f673b44c"
+    },
+    {
+        "instruction": "A chat between a curious user and an artificial intelligence assistant acting as an experienced radiologist. The assistant gives professional, detailed, and polite answers to the user's questions. USER: Image information: <IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG>. Predicted Findings: enlarged cardiomediastinum, consolidation, pleural other. You are to act as a radiologist and write the finding section of a chest x-ray radiology report for this X-ray image and the given predicted findings. Write in the style of a radiologist, write one fluent text without enumeration, be concise and don't provide explanations or reasons. ASSISTANT:",
+        "input": "",
+        "output": "PA and lateral views of the chest provided.   The lungs are adequately aerated.  There is a focal consolidation at the left lung base adjacent to the lateral hemidiaphragm. There is mild vascular engorgement. There is bilateral apical pleural thickening.  The cardiomediastinal silhouette is remarkable for aortic arch calcifications. The heart is top normal in size.",
+        "dicom": "096052b7-d256dc40-453a102b-fa7d01c6-1b22c6b4"
+    }
+]

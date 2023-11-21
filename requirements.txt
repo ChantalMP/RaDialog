@@ -1,0 +1,26 @@
+accelerate==0.18.0
+loralib==0.1.1
+bitsandbytes==0.38.1
+datasets==2.11.0
+fire==0.5.0
+sentencepiece==0.1.98
+gradio==3.27.0
+iterative-stratification==0.1.7
+iopath==0.1.10
+omegaconf==2.3.0
+packaging==21.3
+pandas==1.3.5
+pycocoevalcap==1.2
+scikit-image==0.18.1
+spacy==3.5.1
+timm==0.4.12
+torch==1.13.1
+torchvision==0.14.0
+tqdm==4.65.0
+peft @ git+https://github.com/huggingface/peft.git@e536616888d51b453ed354a6f1e243fecb02ea08
+numpy==1.21.6
+wandb==0.14.0
+pytorch_lightning==1.6.5
+torchinfo==1.8.0
+nltk==3.8.1
+hi-ml-multimodal==0.2.0
