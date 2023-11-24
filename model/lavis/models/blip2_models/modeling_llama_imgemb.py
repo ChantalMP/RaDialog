@@ -451,12 +451,14 @@ class LlamaModel(LlamaPreTrainedModel):
 
         self.gradient_checkpointing = False
 
-        with open("pretraining/stage1_pt_instruct_blip_origlr_img448_embeddings_train_all.pkl", "rb") as f:
-            self.blip_embeddings = pickle.load(f)
+        try:
+            with open("pretraining/embs/stage1_pt_instruct_blip_origlr_img448_embeddings_train_all.pkl", "rb") as f:
+                self.blip_embeddings = pickle.load(f)
+        except:
+            self.blip_embeddings = {}
+            print("WARNING: no train blip embeddings found! For inference that is ok, if you want to train a new model, please generate them as described in the readme.")
         # extend with validation ones
-        with open("pretraining/stage1_pt_instruct_blip_origlr_img448_embeddings_val.pkl", "rb") as f:
-            self.blip_embeddings.update(pickle.load(f))
-        with open("pretraining/stage1_pt_instruct_blip_origlr_img448_embeddings_test.pkl", "rb") as f:
+        with open("pretraining/embs/stage1_pt_instruct_blip_origlr_img448_embeddings_test.pkl", "rb") as f: #TODO set to val or test for evals
             self.blip_embeddings.update(pickle.load(f))
 
 
@@ -493,25 +495,29 @@ class LlamaModel(LlamaPreTrainedModel):
 
         return combined_attention_mask
 
-    def prepare_with_image_embeds(self, tensor, image_embed, i_len=32):
-        #assert image_embed.shape[0] == 1 #TODO is this really obsolete? and is everything else correct/up-to-date?
-        original_size = tensor.shape
-        flattened_tensor = tensor.flatten()
-        # Find the column indices of '32000'
-        image_indices = (flattened_tensor == 32000).nonzero()[:, 0]
-        image_starts = image_indices[::i_len]
-        input_embeds = []
-        prev_image_end = 0
-        for image_start in image_starts:
-            left_embeds = self.embed_tokens(flattened_tensor[prev_image_end:image_start])
-            input_embeds.extend([left_embeds, image_embed[0]])
-            prev_image_end = image_start + i_len
+    def split_at_img(self, tensor):
+        # Find the column index of '32000' in each row
+        rows, cols = (tensor == 32000).nonzero(as_tuple=True)
 
-        input_embeds.append(self.embed_tokens(flattened_tensor[prev_image_end:]))
-        input_embeds = torch.cat(input_embeds, dim=0)
-        # unflatten
-        input_embeds = input_embeds.reshape(original_size[0], original_size[1], -1)
-        return input_embeds
+        # Only take every 32nd position since we have a guaranteed sequence of 32 '32000' values
+        rows = rows[::32]
+        cols = cols[::32]
+
+        # Default indices to zero for each row
+        img_positions = torch.zeros(tensor.size(0), dtype=torch.long, device=self.device)
+
+        img_positions[rows] = cols
+
+        left_tensors = []
+        right_tensors = []
+
+        # Split each row at the found position and skip the 32 '32000' values
+        for i, position in enumerate(img_positions):
+            left_tensors.append(tensor[i, :position])
+            right_tensors.append(tensor[i, position + 32:])
+
+        # Return list of tensors (you can also convert these lists to padded tensors if needed)
+        return left_tensors, right_tensors
 
     @add_start_docstrings_to_model_forward(LLAMA_INPUTS_DOCSTRING)
     def forward(
@@ -570,10 +576,16 @@ class LlamaModel(LlamaPreTrainedModel):
                         image_embs = torch.load("current_chat_img.pt").to(self.device).half()
                         image_embs = self.img_proj_layer(image_embs)
                     else:
-                        # image_embs = self.img_proj_layer(torch.tensor(np.array([self.blip_embeddings[d] for d in dicom])).to(self.device).half())
                         image_embs = self.img_proj_layer(torch.tensor(np.array([self.blip_embeddings[d] for d in dicom])).to(self.device, dtype=self.img_proj_layer.weight.dtype))
                     # split all elements at last 1 id into two parts
-                    inputs_embeds = self.prepare_with_image_embeds(input_ids, image_embs)
+                    left_tensors, right_tensors = self.split_at_img(input_ids)
+                    inputs_embeds = []
+                    for left, right, img in zip(left_tensors, right_tensors, image_embs):
+                        left_embeds = self.embed_tokens(left)
+                        right_embeds = self.embed_tokens(right)
+                        inputs_embeds.append(torch.cat([left_embeds, img, right_embeds], dim=0))
+
+                    inputs_embeds = torch.stack(inputs_embeds, dim=0)
 
                 else:
                     inputs_embeds = self.embed_tokens(input_ids)

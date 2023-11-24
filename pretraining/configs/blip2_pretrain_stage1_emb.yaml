@@ -11,9 +11,8 @@ model:
   vit_model: biovil
   num_query_token: 32
   max_txt_len: 256
-  use_deep_supervision: False
   load_finetuned: True
-  finetuned: "/home/guests/chantal_pellegrini/Lavis/outputs/stage1_pt_instruct_blip_origlr_img448/checkpoint_4.pth"
+  finetuned: "pretraining/outputs/stage1_pt_instruct_blip_origlr_img448/checkpoint_4.pth"
 
 datasets:
   mimic_cxr: # name of the dataset builder
@@ -35,7 +34,7 @@ datasets:
 run:
   task: image_text_pretrain_eval
   project_name: radChat_PT
-  wandb_entity: chantal-pellegrini
+  wandb_entity:
   run_name: stage1_pt_instruct_blip_origlr_img448
   # optimizer
   lr_sched: "linear_warmup_cosine_lr"
@@ -68,4 +67,3 @@ run:
   world_size: 1
   dist_url: "env://"
   distributed: False
-  use_ig: False

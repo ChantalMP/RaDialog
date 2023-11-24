@@ -19,17 +19,21 @@ from transformers import AdamW
 
 from findings_classifier.chexpert_dataset import Chexpert_Dataset
 from findings_classifier.chexpert_model import ChexpertClassifier
+from local_config import WANDB_ENTITY
 
 
 class LitIGClassifier(pl.LightningModule):
-    def __init__(self, num_classes, class_weights, class_names, learning_rate=1e-5):
+    def __init__(self, num_classes, class_names, class_weights=None, learning_rate=1e-5):
         super().__init__()
 
         # Model
         self.model = ChexpertClassifier(num_classes)
 
         # Loss with class weights
-        self.criterion = BCEWithLogitsLoss(pos_weight=class_weights)
+        if class_weights is None:
+            self.criterion = BCEWithLogitsLoss()
+        else:
+            self.criterion = BCEWithLogitsLoss(pos_weight=class_weights)
 
         # Learning rate
         self.learning_rate = learning_rate
@@ -148,7 +152,7 @@ class LitIGClassifier(pl.LightningModule):
 
 def save_preds(dataloader, split):
     # load checkpoint
-    ckpt_path = "checkpoints_ChexpertCLassifier/chexpert_train_macro_log_longer/ChexpertClassifier-epoch=06-val_f1=0.36.ckpt"
+    ckpt_path = f"findings_classifier/checkpoints/chexpert_train/ChexpertClassifier-epoch=06-val_f1=0.36.ckpt"
     model = LitIGClassifier.load_from_checkpoint(ckpt_path, num_classes=num_classes, class_weights=val_dataset.get_class_weights(),
                                                  class_names=class_names, learning_rate=args.lr)
     model.eval()
@@ -171,7 +175,7 @@ def save_preds(dataloader, split):
             structured_preds[dicom_id] = findings
 
     # save predictions
-    with open(f"chexpert_data/structured_preds_chexpert_log_weighting_macro_{split}_dicom.json", "w") as f:
+    with open(f"findings_classifier/predictions/structured_preds_chexpert_log_weighting_macro_{split}.json", "w") as f:
         json.dump(structured_preds, f, indent=4)
 
 
@@ -179,7 +183,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--run_name", type=str, default="debug")
     parser.add_argument("--lr", type=float, default=5e-5)
-    parser.add_argument("--epochs", type=int, default=100)
+    parser.add_argument("--epochs", type=int, default=6)
     parser.add_argument("--loss_weighting", type=str, default="log", choices=["lin", "log", "none"])
     parser.add_argument("--truncate", type=int, default=None)
     parser.add_argument("--batch_size", type=int, default=64)
@@ -215,14 +219,14 @@ if __name__ == '__main__':
         # WandB logger
         wandb_run = wandb.init(
             project="ChexpertClassifier",
-            entity="todo", #TODO set your own entity
+            entity= WANDB_ENTITY,
             name=args.run_name
         )
 
         # checkpoint callback
         checkpoint_callback = ModelCheckpoint(
             monitor='val_f1',
-            dirpath=f'checkpoints_ChexpertCLassifier/{args.run_name}',
+            dirpath=f'findings_classifier/checkpoints/{args.run_name}',
             filename='ChexpertClassifier-{epoch:02d}-{val_f1:.2f}',
             save_top_k=1,
             save_last=True,

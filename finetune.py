@@ -14,8 +14,9 @@ from torch import nn
 from torch.utils.data import Sampler
 from transformers.modeling_utils import unwrap_model
 
+from local_config import WANDB_ENTITY
 from utils.datacollator import MyDataCollatorForSeq2Seq
-from modeling_llama_imgemb import LlamaForCausalLM
+from model.lavis.models.blip2_models.modeling_llama_imgemb import LlamaForCausalLM
 
 from peft import (
     LoraConfig,
@@ -125,7 +126,7 @@ def train(
     # training hyperparams
     batch_size: int = 128,
     micro_batch_size: int = 2,
-    num_epochs: int = 10,
+    num_epochs: int = 5,
     learning_rate: float = 3e-4,
     cutoff_len: int = 1024, #256 -> need much more with examples in prompt (1024), 512 for without examples but long IG labels
     val_set_size: int = 5,
@@ -144,7 +145,7 @@ def train(
     # wandb params
     wandb_project: str = "lora_training",
     wandb_run_name: str = "lora_mimic_cxr",
-    wandb_entity: str = "chantal-pellegrini",
+    wandb_entity: str = WANDB_ENTITY,
     wandb_watch: str = "",  # options: false | gradients | all
     wandb_log_model: str = "",  # options: false | true
     resume_from_checkpoint: str = None,  # either training checkpoint or final adapter

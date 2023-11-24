@@ -317,9 +317,6 @@ def create_nle_task_data():
             obj = json.loads(line)
             mimic_nle.append(obj)
 
-    # truncate to 10 samples
-    mimic_nle = mimic_nle[:10]
-
     prompts = pd.read_csv(f"data/instruct_prompts/RE_prompts.csv")["instruction"].tolist()
     report_jsons = []
     reports = pd.read_csv('mimic-cxr/reports_processed/mimic_cxr_sectioned.csv')

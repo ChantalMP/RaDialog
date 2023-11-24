@@ -16,9 +16,9 @@ from tqdm import tqdm
 from transformers import AutoTokenizer
 from torch.utils.data.sampler import Sampler
 
-from instruct_tasks import create_direct_task_data, create_cp_task_data, create_correction_task_data, create_nle_task_data
+from data.instruct_tasks import create_direct_task_data, create_cp_task_data, create_correction_task_data, create_nle_task_data
 from local_config import VIS_ROOT, PATH_TO_MIMIC_CXR
-from model.modeling_llama_imgemb import LlamaForCausalLM
+from model.lavis.models.blip2_models.modeling_llama_imgemb import LlamaForCausalLM
 
 
 class MyReportProcessor():
@@ -408,7 +408,7 @@ def fuse_instruct_dataset(prompt_type="img_matching_examples_ig2_noexamples_IMG_
     random.shuffle(combined_jsons)
 
     # save to json
-    with open(f"instruct_prompts_{prompt_type}_stratified.json", "w") as f:
+    with open(f"data/data_files/mimic_cxr_instruct_stratified.json", "w") as f:
         json.dump(combined_jsons, f, indent=4)
 
 

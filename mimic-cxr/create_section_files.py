@@ -101,7 +101,7 @@ def main(args):
                     study_sectioned_copy = study_sectioned.copy()
                     study_sectioned_copy.append(dicom_id)
                     study_sectioned_copy.append(f"{dicom_id}.jpg")
-                    study_sectioned_copy.append(img_path)
+                    study_sectioned_copy.append(Path("files")/p_grp / p / s.replace('.txt', ''))
                     study_sectioned_copy.append(f'{s_stem}.txt')
                     study_sections.append(study_sectioned_copy)
 

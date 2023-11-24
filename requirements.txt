@@ -14,7 +14,7 @@ pycocoevalcap==1.2
 scikit-image==0.18.1
 spacy==3.5.1
 timm==0.4.12
-torch==1.13.1
+torch==1.13.0
 torchvision==0.14.0
 tqdm==4.65.0
 peft @ git+https://github.com/huggingface/peft.git@e536616888d51b453ed354a6f1e243fecb02ea08
@@ -23,4 +23,3 @@ wandb==0.14.0
 pytorch_lightning==1.6.5
 torchinfo==1.8.0
 nltk==3.8.1
-hi-ml-multimodal==0.2.0

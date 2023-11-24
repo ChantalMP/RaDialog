@@ -7,11 +7,11 @@ from enum import Enum, auto
 from pathlib import Path
 from typing import List, Any
 
-from local_config import PATH_TO_MIMIC_CXR
+from local_config import PATH_TO_MIMIC_CXR, JAVA_HOME, JAVA_PATH
 
 # set java path
-os.environ["JAVA_HOME"] = "/home/guests/chantal_pellegrini/java/jre1.8.0_361"
-os.environ["PATH"] = "/home/guests/chantal_pellegrini/java/jre1.8.0_361/bin:" + os.environ["PATH"]
+os.environ["JAVA_HOME"] = JAVA_HOME
+os.environ["PATH"] = JAVA_PATH + os.environ["PATH"]
 os.environ['GRADIO_TEMP_DIR'] = os.path.join(os.getcwd(), "gradio_tmp")
 
 import numpy as np
@@ -337,7 +337,7 @@ class MIMIC_CXR_Dataset(BaseDataset, __DisplMixin):
             image = self.vis_transforms(image)
 
         caption = ann["findings"].strip()
-        input_text = self.text_processor(findings=None, no_findings=False)
+        input_text = self.text_processor(findings=None)
 
         conv = Conversation(
             system="A chat between a curious user and an artificial intelligence assistant acting as an experienced radiologist. "
@@ -397,15 +397,11 @@ class MIMICEvalCap:
             (Rouge(), "ROUGE_L")
         ]
 
-        # if mimic_nle:
-        #     self.scorers.extend([(Cider(), "CIDEr"),(Spice(), "SPICE"),])
 
     def preprocess(self, s):
         s = s.replace('\n', '')
         s = s.replace('<s>', '')
         s = s.replace('</s>', '')
-        # s = s.translate(str.maketrans('', '', '0123456789'))
-        # s = s.translate(str.maketrans('', '', string.punctuation))
         return s
 
     def evaluate(self, res):

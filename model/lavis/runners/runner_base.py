@@ -365,14 +365,14 @@ class RunnerBase:
     def setup_output_dir(self):
         #lib_root = Path(registry.get_path("library_root"))
 
-        output_dir = Path("outputs") / self.run_name
+        output_dir = Path("pretraining/outputs") / self.run_name
         if os.path.exists(output_dir) and not self.evaluate_only: # for evaluation want to use the same output dir
-            output_dir = Path("outputs") / "{}_{}".format(
+            output_dir = Path("pretraining/outputs") / "{}_{}".format(
                 self.run_name, datetime.datetime.now().strftime("%m%d_%H%M%S")
             )
         elif self.evaluate_only:
             # replace "_eval" with "" in the output dir name
-            output_dir = Path("outputs") / self.run_name.replace("_eval", "")
+            output_dir = Path("pretraining/outputs") / self.run_name.replace("_eval", "")
         result_dir = output_dir / "result"
 
         output_dir.mkdir(parents=True, exist_ok=True)

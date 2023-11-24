@@ -1,11 +1,14 @@
+import argparse
 import os
 import random
 import numpy as np
 import torch
 from torch.backends import cudnn
 
-from local_config import PATH_TO_MIMIC_CXR
+from chexpert_train import LitIGClassifier
+from local_config import JAVA_HOME, JAVA_PATH
 
+# Activate for deterministic demo, else comment
 SEED = 16
 random.seed(SEED)
 np.random.seed(SEED)
@@ -14,8 +17,8 @@ cudnn.benchmark = False
 cudnn.deterministic = True
 
 # set java path
-os.environ["JAVA_HOME"] = "/home/guests/chantal_pellegrini/java/jre1.8.0_361"
-os.environ["PATH"] = "/home/guests/chantal_pellegrini/java/jre1.8.0_361/bin:" + os.environ["PATH"]
+os.environ["JAVA_HOME"] = JAVA_HOME
+os.environ["PATH"] = JAVA_PATH + os.environ["PATH"]
 os.environ['GRADIO_TEMP_DIR'] = os.path.join(os.getcwd(), "gradio_tmp")
 
 import dataclasses
@@ -24,19 +27,37 @@ import time
 from enum import auto, Enum
 from typing import List, Any
 
+
 import gradio as gr
 from PIL import Image
 from peft import PeftModelForCausalLM
 from skimage import io
 from torch import nn
 from transformers import LlamaTokenizer
+from torchvision.transforms import Compose, Resize, ToTensor, CenterCrop, transforms
 
 from model.lavis import tasks
 from model.lavis.common.config import Config
-from model.lavis.data.ReportDataset import create_chest_xray_transform_for_inference, MIMIC_CXR_Dataset
+from model.lavis.data.ReportDataset import create_chest_xray_transform_for_inference, ExpandChannels
 from model.lavis.models.blip2_models.modeling_llama_imgemb import LlamaForCausalLM
-from train import parse_args
 
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Training")
+
+    parser.add_argument("--cfg-path", required=True, help="path to configuration file.")
+    parser.add_argument("--local_rank", type=int, default=0, help="local rank for distributed training.")
+    parser.add_argument(
+        "--options",
+        nargs="+",
+        help="override some settings in the used config, the key-value pair "
+        "in xxx=yyy format will be merged into config file (deprecate), "
+        "change to --cfg-options instead.",
+    )
+
+    args = parser.parse_args()
+
+    return args
 
 class SeparatorStyle(Enum):
     """Different separator style."""
@@ -123,14 +144,30 @@ cfg = Config(parse_args())
 vis_transforms = create_chest_xray_transform_for_inference(512, center_crop_size=448)
 use_img = False
 gen_report = True
-pred_chexpert_labels = json.load(open('chexbert/chexbert_data/structured_preds_chexpert_log_weighting_test_macro_dicom.json', 'r'))
-
+pred_chexpert_labels = json.load(open('findings_classifier/predictions/structured_preds_chexpert_log_weighting_test_macro.json', 'r'))
 
 def init_blip(cfg):
     task = tasks.setup_task(cfg)
     model = task.build_model(cfg)
     model = model.to(torch.device('cpu'))
     return model
+
+def init_chexpert_predictor():
+    ckpt_path = f"findings_classifier/checkpoints/chexpert_train/ChexpertClassifier-epoch=06-val_f1=0.36.ckpt"
+    chexpert_cols = ["No Finding", "Enlarged Cardiomediastinum",
+                          "Cardiomegaly", "Lung Opacity",
+                          "Lung Lesion", "Edema",
+                          "Consolidation", "Pneumonia",
+                          "Atelectasis", "Pneumothorax",
+                          "Pleural Effusion", "Pleural Other",
+                          "Fracture", "Support Devices"]
+    model = LitIGClassifier.load_from_checkpoint(ckpt_path, num_classes=14, class_names=chexpert_cols, strict=False)
+    model.eval()
+    model.cuda()
+    model.half()
+    cp_transforms = Compose([Resize(512), CenterCrop(488), ToTensor(), ExpandChannels()])
+
+    return model, np.asarray(model.class_names), cp_transforms
 
 
 def remap_to_uint8(array: np.ndarray, percentiles=None) -> np.ndarray:
@@ -193,9 +230,9 @@ def init_vicuna():
         vicuna_tokenizer.add_special_tokens({"additional_special_tokens": ["<IMG>"]})
 
     lang_model = PeftModelForCausalLM.from_pretrained(lang_model,
-                                                      f"checkpoints/lora-cxr-vicuna-specific-7b-noexamples-imgemb-instruct-cp-rightpadding-stratified_32imgtokens_800tokens/checkpoint-4800",
+                                                      f"checkpoints/vicuna-7b-img-instruct/checkpoint-4800",
                                                       torch_dtype=torch.float16, use_ram_optimized_load=False).half()
-    # lang_model = PeftModelForCausalLM.from_pretrained(lang_model, f"{LORA_ADAPT_PATH}/lora-cxr-vicuna-specific-7b-noexamples-imgemb-findings-rightpadding-stratified_32imgtokens_600tokens/checkpoint-11200", torch_dtype=torch.float16, use_ram_optimized_load=False).half()
+    # lang_model = PeftModelForCausalLM.from_pretrained(lang_model, f"checkpoints/vicuna-7b-img-report/checkpoint-11200", torch_dtype=torch.float16, use_ram_optimized_load=False).half()
     return lang_model, vicuna_tokenizer
 
 blip_model = init_blip(cfg)
@@ -203,21 +240,26 @@ lang_model, vicuna_tokenizer = init_vicuna()
 blip_model.eval()
 lang_model.eval()
 
+cp_model, cp_class_names, cp_transforms = init_chexpert_predictor()
+
 def get_response(input_text, dicom):
     global use_img, blip_model, lang_model, vicuna_tokenizer
 
-    if input_text == "":  # only dicom was given
-        findings = ', '.join(pred_chexpert_labels[dicom]).lower().strip()
-        if gen_report:
-            input_text = (
-                f"Image information: <IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG>. Predicted Findings: {findings}. You are to act as a radiologist and write the finding section of a chest x-ray radiology report for this X-ray image and the given predicted findings. "
-                "Write in the style of a radiologist, write one fluent text without enumeration, be concise and don't provide explanations or reasons.")
-
-    elif input_text[-1].endswith(".png") or input_text[-1].endswith(".jpg"):
+    if input_text[-1].endswith(".png") or input_text[-1].endswith(".jpg"):
         image = load_image(input_text[-1])
+        cp_image = cp_transforms(image)
         image = vis_transforms(image)
         dicom = input_text[-1].split('/')[-1].split('.')[0]
-        findings = ', '.join(pred_chexpert_labels[dicom]).lower().strip()
+        if dicom in pred_chexpert_labels:
+            findings = ', '.join(pred_chexpert_labels[dicom]).lower().strip()
+        else:
+            logits = cp_model(cp_image[None].half().cuda())
+            preds_probs = torch.sigmoid(logits)
+            preds = preds_probs > 0.5
+            pred = preds[0].cpu().numpy()
+            findings = cp_class_names[pred].tolist()
+            findings = ', '.join(findings).lower().strip()
+
         if gen_report:
             input_text = (
                 f"Image information: <IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG><IMG>. Predicted Findings: {findings}. You are to act as a radiologist and write the finding section of a chest x-ray radiology report for this X-ray image and the given predicted findings. "
@@ -234,6 +276,7 @@ def get_response(input_text, dicom):
 
     else:  # free chat
         input_text = input_text
+        findings = None
 
     '''Generate prompt given input prompt'''
     conv.append_message(conv.roles[0], input_text)
@@ -259,7 +302,7 @@ def get_response(input_text, dicom):
     # remove last message in conv
     conv.messages.pop()
     conv.append_message(conv.roles[1], new_pred)
-    return new_pred
+    return new_pred, findings
 
 
 '''Conversation template for prompt'''
@@ -303,25 +346,16 @@ def clear_history(button_name):
     return []  # Return empty history to the Chatbot
 
 
-def clear_qa(button_name):
-    global chat_history, use_img, conv
-    conv.messages = conv.messages[:2]
-    return [[conv.messages[0][1], conv.messages[1][1]]]
-
-
 def bot(history):
     # You can now access the global `dicom` variable here if needed
-    if history == []:
-        global dicom
-        response = get_response("", dicom)
-
-    else:
-        response = get_response(history[-1][0], None)
-        print(response)
+    response, findings = get_response(history[-1][0], None)
+    print(response)
 
     # show report generation prompt if first message after image
     if len(history) == 1:
         input_text = f"You are to act as a radiologist and write the finding section of a chest x-ray radiology report for this X-ray image and the given predicted findings. Write in the style of a radiologist, write one fluent text without enumeration, be concise and don't provide explanations or reasons."
+        if findings is not None:
+            input_text = f"Image information: (img_tokens) Predicted Findings: {findings}. {input_text}"
         history.append([input_text, None])
 
     history[-1][1] = ""
@@ -333,9 +367,6 @@ def bot(history):
 
 
 if __name__ == '__main__':
-    # setup_seeds(42)
-    mimic_dataset = MIMIC_CXR_Dataset(vis_processor=None, text_processor=None, vis_root=f"{PATH_TO_MIMIC_CXR}/mimic-cxr-jpg/2.0.0", split="test", cfg=cfg, truncate=None)
-    a = 1
     with gr.Blocks() as demo:
 
 

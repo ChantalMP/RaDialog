@@ -8,7 +8,7 @@ model:
   load_finetuned: False
   load_pretrained: False
 
-  pretrained: "outputs/stage1_pt_instruct_blip_origlr_img448/checkpoint_4.pth"#"https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna7b_trimmed.pth"
+  pretrained: "pretraining/outputs/stage1_pt_instruct_blip_origlr_img448/checkpoint_4.pth"#"https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna7b_trimmed.pth"
   finetuned: ""
 
   # vit encoder

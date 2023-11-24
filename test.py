@@ -3,11 +3,11 @@ import dataclasses
 import json
 import os
 
-from local_config import PATH_TO_MIMIC_CXR, VIS_ROOT
+from local_config import PATH_TO_MIMIC_CXR, VIS_ROOT, JAVA_HOME, JAVA_PATH
 
 # set java path
-os.environ["JAVA_HOME"] = "/home/guests/chantal_pellegrini/java/jre1.8.0_361"
-os.environ["PATH"] = "/home/guests/chantal_pellegrini/java/jre1.8.0_361/bin:" + os.environ["PATH"]
+os.environ["JAVA_HOME"] = JAVA_HOME
+os.environ["PATH"] = JAVA_PATH + os.environ["PATH"]
 from enum import auto, Enum
 from pathlib import Path
 import random
@@ -57,9 +57,9 @@ class MIMIC_Text_Dataset(Dataset):
         self.chexpert = pd.read_csv(f'data/data_files/finding_chexbert_labels.csv')
 
         if split == 'validate':
-            self.pred_chexpert_labels = json.load(open('chexbert/chexbert_data/structured_preds_chexpert_log_weighting_val_macro_dicom.json', 'r'))
+            self.pred_chexpert_labels = json.load(open('findings_classifier/predictions/structured_preds_chexpert_log_weighting_val_macro.json', 'r'))
         elif split == 'test':
-            self.pred_chexpert_labels = json.load(open('chexbert/chexbert_data/structured_preds_chexpert_log_weighting_test_macro_dicom.json', 'r'))
+            self.pred_chexpert_labels = json.load(open('findings_classifier/predictions/structured_preds_chexpert_log_weighting_test_macro.json', 'r'))
 
         self.vis_root = VIS_ROOT
 
@@ -92,9 +92,19 @@ class MIMIC_Text_Dataset(Dataset):
     def create_structured_chexpert_findings(self, ann):
         pred_chexpert_labels = self.pred_chexpert_labels[str(ann['dicom_id'])]
         no_labels = len(pred_chexpert_labels) == 0
+        counter = 0
+        no_findings = "No Finding" in pred_chexpert_labels
+        if no_findings:
+            counter += 1
+        supp_devices = "Support Devices" in pred_chexpert_labels
+        if supp_devices:
+            counter += 1
+        # We check if there are any findings except no findings and support devices
+        if len(pred_chexpert_labels) > counter and no_findings:
+            pred_chexpert_labels.remove("No Finding")
+            no_findings = False
         finding_string = ', '.join(pred_chexpert_labels).lower().strip()
         return no_labels, finding_string
-
     def __getitem__(self, index):
         ann = self.annotation.iloc[index]
         caption = ann['findings'].strip()
@@ -124,8 +134,7 @@ class MIMIC_Text_Dataset(Dataset):
             "text_target": caption,
             "chexpert_labels": ann[self.chexpert_cols].astype(float).values,
             "dicom": dicom_id,
-            "img_path": ann["Img_Folder"] + "/" + ann["Img_Filename"],
-            "ig_finding_string": finding_string,
+            "img_path": ann["Img_Folder"] + "/" + ann["Img_Filename"]
         }
 
     def __len__(self):
@@ -266,8 +275,8 @@ if __name__ == '__main__':
 
     # set all seeds to make code deterministic
     setup_seeds(42)
-    val_dataset = MIMIC_Text_Dataset(split="test", truncate=10, prompt_type=prompt_type)
-    batchsize = 5  # 12
+    val_dataset = MIMIC_Text_Dataset(split="test", truncate=None, prompt_type=prompt_type)
+    batchsize = 12  # 12
     if args.strat_eval:
         stratified_indices = stratified_sample(val_dataset, simulated_epochs=1)
         sampler = SubsetSampler(stratified_indices)
@@ -289,7 +298,7 @@ if __name__ == '__main__':
 
     lang_model = lang_model.cuda()
     if args.lora_model is not None:
-        lang_model = PeftModelForCausalLM.from_pretrained(lang_model, f"{args.lora_model}", torch_dtype=torch.float16, use_ram_optimized_load=False).half() #TODO ME: model path
+        lang_model = PeftModelForCausalLM.from_pretrained(lang_model, f"{args.lora_model}", torch_dtype=torch.float16, use_ram_optimized_load=False).half()
     lang_model.eval()
 
     vicuna_tokenizer.pad_token = vicuna_tokenizer.unk_token  # unk token is ignored in attention mask
@@ -467,7 +476,7 @@ if __name__ == '__main__':
                                    text_input[idx].split("</s>USER: KEEP_OLD")[0].split("ASSISTANT:")[-1].strip() for idx, p in enumerate(preds)])
 
         # save predictions
-        pred_dir = Path("chexbert") / "outputs" / "predictions"
+        pred_dir = Path("chexbert").absolute() / "outputs" / "predictions"
         with open(pred_dir / "predictions_{}_after_corrections.csv".format(exp_name), "w") as f:
             for i in range(len(all_preds_corr)):
                 f.write('"' + all_preds_corr[i].replace('"', '') + '"\n')

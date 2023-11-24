@@ -25,7 +25,7 @@ from model.lavis.common.config import Config
 from model.lavis.common.dist_utils import get_rank
 from model.lavis.common.logger import setup_logger
 
-
+from local_config import WANDB_ENTITY
 from model.lavis.common.registry import registry
 from model.lavis.common.utils import now
 
@@ -40,7 +40,7 @@ from model.lavis.processors import *
 from model.lavis.runners import *
 from model.lavis.tasks import *
 from model.lavis.data.ReportDataset import MIMIC_CXR_Dataset
-from local_config import PT_MODE, PATH_TO_MIMIC_CXR
+from local_config import PATH_TO_MIMIC_CXR
 
 
 def parse_args():
@@ -97,7 +97,7 @@ def main():
 
     wandb_run = wandb.init(
         project=cfg.run_cfg.project_name,
-        entity=cfg.run_cfg.wandb_entity,
+        entity=WANDB_ENTITY,
         name=cfg.run_cfg.run_name
     )
 
@@ -122,25 +122,45 @@ def main():
     print(summary(model, input_size=None, device='cpu'))
 
 
-    if PT_MODE == 'train':
+    if not cfg.run_cfg.evaluate:
         ''' training code '''
         runner = RunnerBase(
             cfg=cfg, job_id=job_id, task=task, model=model, datasets=datasets
         )
 
         runner.train(wandb_run)
-        # save the last checkpoint
-        # create folder
-        if not os.path.exists(f"models/{cfg.run_cfg.run_name}"):
-            os.makedirs(f"models/{cfg.run_cfg.run_name}")
-        torch.save(model.state_dict(), os.path.join("models", cfg.run_cfg.run_name, "model.pth"))
 
 
     else:
         ''' precompute Q-Former output embeddings for all images '''
         model.cuda()
         model.eval()
+
         dataloader = DataLoader(datasets['mimic_cxr']['test'], batch_size=256, shuffle=False, num_workers=cfg.run_cfg.num_workers)
+        embeddings = {}
+        for i, batch in enumerate(tqdm(dataloader)):
+            qformer_embs, _ = model.forward_image(batch['image'].cuda())
+            for j, id in enumerate(batch['image_id']):
+                dicom = datasets['mimic_cxr']['test'].id_to_dicom[id.item()]
+                embeddings[dicom] = qformer_embs[j].cpu().detach().numpy()
+
+        # save embeddings
+        with open(f"pretraining/embs/{cfg.run_cfg.run_name}_embeddings_test.pkl", "wb") as f:
+            pickle.dump(embeddings, f)
+
+        dataloader = DataLoader(datasets['mimic_cxr']['val'], batch_size=256, shuffle=False, num_workers=cfg.run_cfg.num_workers)
+        embeddings = {}
+        for i, batch in enumerate(tqdm(dataloader)):
+            qformer_embs, _ = model.forward_image(batch['image'].cuda())
+            for j, id in enumerate(batch['image_id']):
+                dicom = datasets['mimic_cxr']['val'].id_to_dicom[id.item()]
+                embeddings[dicom] = qformer_embs[j].cpu().detach().numpy()
+
+        # save embeddings
+        with open(f"pretraining/embs/{cfg.run_cfg.run_name}_embeddings_val.pkl", "wb") as f:
+            pickle.dump(embeddings, f)
+
+        dataloader = DataLoader(datasets['mimic_cxr']['train'], batch_size=256, shuffle=False, num_workers=cfg.run_cfg.num_workers)
         embeddings = {}
         for i, batch in enumerate(tqdm(dataloader)):
             qformer_embs, _ = model.forward_image(batch['image'].cuda())
@@ -149,7 +169,7 @@ def main():
                 embeddings[dicom] = qformer_embs[j].cpu().detach().numpy()
 
         # save embeddings
-        with open(f"pretraining/embs/{cfg.run_cfg.run_name}_embeddings_test.pkl", "wb") as f: #TODO ME has to be done for train, val and test
+        with open(f"pretraining/embs/{cfg.run_cfg.run_name}_embeddings_train.pkl", "wb") as f:
             pickle.dump(embeddings, f)
 
 

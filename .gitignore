@@ -1,0 +1,5 @@
+/data/instruct_prompts/instruct_task_correction_preds.json
+/chexbert/src/checkpoint/chexbert.pth
+/pretraining/outputs/stage1_pt_instruct_blip_origlr_img448/checkpoint_4-pth
+/pretraining/embs/stage1_pt_instruct_blip_origlr_img448_embeddings_test.pkl
+/pretraining/embs/stage1_pt_instruct_blip_origlr_img448_embeddings_val.pkl
