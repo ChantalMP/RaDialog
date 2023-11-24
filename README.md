@@ -7,7 +7,7 @@
 [nn]:https://www.cs.cit.tum.de/camp/members/cv-nassir-navab/nassir-navab/
 [bb]:https://www.cs.cit.tum.de/camp/members/benjamin-busam-1/
 
-## [Paper](https://arxiv.org/abs/2106.02009) | Dataset - Coming Soon
+## [Paper](TODO)
 
 <img align="right" src="figs/example.png" alt="teaser" width="50%" style="margin-left: 20px">
 
@@ -37,7 +37,7 @@ Conversational AI tools that can generate and discuss clinically correct radiolo
 ### Prepare the Data and Models:
 
 #### 1) Download pretrained models
-- Download the pretrained models from [here](https://github.com/ChantalMP/RaDialog/releases/tag/models)
+- Download the pretrained models from [here](https://github.com/ChantalMP/RaDialog/releases/tag/weights)
 - place chexbert.pth in RaDialog/chexbert/src/checkpoint/
 - unzip vicuna-7b-img-instruct.zip and vicuna-7b-img-report.zip and place folders into RaDialog/checkpoints/
 - unzip chexpert_train and place folder into RaDialog/findings_classifier/checkpoints/
