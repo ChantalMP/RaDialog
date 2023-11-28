@@ -7,7 +7,7 @@
 [nn]:https://www.cs.cit.tum.de/camp/members/cv-nassir-navab/nassir-navab/
 [bb]:https://www.cs.cit.tum.de/camp/members/benjamin-busam-1/
 
-## [Paper](https://arxiv.org/abs/2106.02009) | Dataset - Coming Soon
+## [Paper](TODO)
 
 <img align="right" src="figs/example.png" alt="teaser" width="50%" style="margin-left: 20px">
 
@@ -37,7 +37,7 @@ Conversational AI tools that can generate and discuss clinically correct radiolo
 ### Prepare the Data and Models:
 
 #### 1) Download pretrained models
-- Download the pretrained models from [here](https://github.com/ChantalMP/RaDialog/releases/tag/models)
+- Download the pretrained models from [here](https://github.com/ChantalMP/RaDialog/releases/tag/weights)
 - place chexbert.pth in RaDialog/chexbert/src/checkpoint/
 - unzip vicuna-7b-img-instruct.zip and vicuna-7b-img-report.zip and place folders into RaDialog/checkpoints/
 - unzip chexpert_train and place folder into RaDialog/findings_classifier/checkpoints/
@@ -85,7 +85,7 @@ Data for RaDialog-INS:
 - RaDialog-RG: run `python test.py --prompt img_matching_examples_ig2_noexamples_IMG_findings --use_embs --num_workers 0 --lora_model checkpoints/vicuna-7b-img-report/checkpoint-11200`
 - RaDialog-INS: run `python test.py --prompt img_matching_examples_ig2_noexamples_IMG_findings --use_embs --num_workers 0 --lora_model checkpoints/vicuna-7b-img-instruct/checkpoint-4800`
 - RaDialog-INS (correction): run `python test.py --prompt img_matching_examples_ig2_noexamples_IMG_findings --use_embs --num_workers 0 --lora_model checkpoints/vicuna-7b-img-instruct/checkpoint-4800 --do_corr` 
-- RaDialog-INS (findings QA): run `python test.py --prompt img_matching_examples_ig2_noexamples_IMG_findings --use_embs --num_workers 0 --lora_model checkpoints/vicuna-7b-img-instruct/checkpoint-4800 --do_cp_all_qa` (or ----do_cp_bin_qa)
+- RaDialog-INS (findings QA): run `python test.py --prompt img_matching_examples_ig2_noexamples_IMG_findings --use_embs --num_workers 0 --lora_model checkpoints/vicuna-7b-img-instruct/checkpoint-4800 --do_cp_all_qa` (or --do_cp_bin_qa)
 
 ### Train RaDialog:
 #### 1) CheXbert classifier Training
