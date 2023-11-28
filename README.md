@@ -99,7 +99,13 @@ Data for RaDialog-INS:
 
 #### 3) LLM Training
 Train RaDialog-RG:
-- run `python finetune.py --use_embs True --base_model 'vicuna_v7' --output_dir 'checkpoints/lora-vicuna-7b-report' --wandb_run_name lora-vicuna-7b-report --prompt_template_name vicuna_v11 --data_path "data/data_files/mimic_cxr_reports_stratified.json" --cutoff_len 600 --num_epochs 4`
+- run `python finetune.py --use_embs True --base_model 'vicuna_v7' --output_dir 'checkpoints/lora-vicuna-7b-report' --wandb_run_name lora-vicuna-7b-report --prompt_template_name vicuna_v11 --data_path "data/data_files/mimic_cxr_reports_stratified.json" --cutoff_len 600 --num_epochs 10`
+- we used checkpoint-11200
 
 Train RaDialog-INS:
-- run `python finetune.py --use_embs True --base_model 'vicuna_v7' --output_dir 'checkpoints/lora-vicuna-7b-instruct' --wandb_run_name lora-vicuna-7b-instruct --prompt_template_name vicuna_v11 --data_path "data/data_files/mimic_cxr_instruct_stratified.json" --cutoff_len 800 --num_epochs 1`
+- run `python finetune.py --use_embs True --base_model 'vicuna_v7' --output_dir 'checkpoints/lora-vicuna-7b-instruct' --wandb_run_name lora-vicuna-7b-instruct --prompt_template_name vicuna_v11 --data_path "data/data_files/mimic_cxr_instruct_stratified.json" --cutoff_len 800 --num_epochs 10`
+- we used checkpoint-4800
+
+To use a model from a checkpoint, you'll need to perform the following steps:
+- make a copy of "pytorch_model.bin" and rename it to "adapter_model.bin"
+- copy adapter_config.json to the checkpoint folder (it will be generated after the last epoch or you can copy it from the checkpoints we provide)

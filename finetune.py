@@ -25,7 +25,7 @@ from peft import (
     prepare_model_for_int8_training,
     set_peft_model_state_dict,
 )
-from transformers import LlamaTokenizer, AutoTokenizer, AutoModelForCausalLM, PreTrainedModel
+from transformers import AutoTokenizer, PreTrainedModel
 
 from utils.prompter import Prompter
 
@@ -126,7 +126,7 @@ def train(
     # training hyperparams
     batch_size: int = 128,
     micro_batch_size: int = 2,
-    num_epochs: int = 5,
+    num_epochs: int = 10,
     learning_rate: float = 3e-4,
     cutoff_len: int = 1024, #256 -> need much more with examples in prompt (1024), 512 for without examples but long IG labels
     val_set_size: int = 5,
