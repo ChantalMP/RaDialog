@@ -42,12 +42,7 @@ h1 {
     align-items: flex-start;
     justify-content: center;
     margin-top: 20px;
-    text-align: left;
-}
-
-.teaser-image {
-    width: 40%;
-    margin-right: 20px;
+    text-align: center;
 }
 
 .abstract {
@@ -64,4 +59,13 @@ h1 {
     font-size: 1.5em; /* Larger font size for the subtitle */
     color: #333; /* Subtitle color */
     margin-bottom: 20px; /* Spacing below the subtitle */
+}
+
+video {
+    width: 100%;       /* You can use percentages for responsive width */
+    max-width: 640px;  /* Set a max-width if you want to limit how large the video can get */
+    height: auto;      /* 'auto' maintains the aspect ratio based on the width */
+    border: 1px solid #ddd; /* Optional: adds a border around the video */
+    border-radius: 8px; /* Optional: rounds the corners */
+    margin-bottom: 20px; /* Optional: adds space below the video */
 }
