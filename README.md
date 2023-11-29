@@ -24,7 +24,6 @@ Conversational AI tools that can generate and discuss clinically correct radiolo
 - Install the requirements with `pip install -r requirements.txt`
 - Install hl-ml-multimodal with `pip install hi-ml-multimodal==0.2.0`
 - Reinstall correct versions of torch and transformers with `pip install torch==1.13.0 transformers==4.28.1`
-
 - Install java and set JAVA_HOME and PATH in local_config.py (we used jre1.8.0)
 
 #### 2) CheXbert Environment
@@ -49,10 +48,8 @@ Conversational AI tools that can generate and discuss clinically correct radiolo
 - Download the MIMIC-CXR-JPG dataset from [here](https://www.physionet.org/content/mimic-cxr-jpg/2.0.0/)
 - The dataset should be saved in .../physionet.org/files/mimic-cxr-jpg
 - Go to physionet.org/files/mimic-cxr-jpg/files/ and unzip mimic-cxr-2.0.0-split.csv.gz
-
 - from [here](https://physionet.org/content/mimic-cxr/2.0.0/), dowload mimic-cxr-reports.zip
 - unzip it and place the folder in the same directory as the MIMIC-CXR-JPG dataset (e.g. physionet.org/files/)
-
 - in local_config.py set the path to the MIMIC-CXR dataset (e.g. .../physionet.org/files/)
 - in model/lavis/defaults_report.yaml set the path to the MIMIC-CXR-JPG dataset (e.g. .../physionet.org/files/mimic-cxr-jpg/2.0.0 )
 
@@ -65,7 +62,6 @@ Conversational AI tools that can generate and discuss clinically correct radiolo
 
 - As MIMIC-CXR needs a certified PhysioNet account to be accessed, we can not publish our instruct dataset directly.
 - We are working on publishing the instruct dataset on PhysioNet. In the meantime, you can create an instruct dataset yourself by following the steps below or just use our pre-trained model.
-
 - The MIMIC-NLE data has to be generated first, as it also contains protected data. Follow the instructions [here](https://github.com/maximek3/MIMIC-NLE/tree/main) to generate the MIMIC-NLE data and set the path to the MIMIC-NLE data in `local_config.py`.
 - For the correction task, you can write us, then we can share the used incorrect predictions with you.
 - To generate data without Correction or Reasoning (MIMIC-NLE), please comment our line 335 or 336 in "create_data.py" accordingly.
