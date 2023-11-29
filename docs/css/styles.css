@@ -3,7 +3,7 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background: #f4f4f4;
+    background: #ffffff; /* White background */
     color: #333;
 }
 
@@ -11,16 +11,19 @@ body {
     width: 80%;
     margin: auto;
     overflow: hidden;
+    text-align: center; /* Center content */
 }
 
 h1 {
     font-size: 2em;
     color: #333;
+    margin-bottom: 0.5em;
 }
 
-.university {
+.authors, .university {
     font-style: italic;
     color: #555;
+    margin-bottom: 1em;
 }
 
 .button {
@@ -30,13 +33,16 @@ h1 {
     padding: 10px 15px;
     text-decoration: none;
     border-radius: 15px;
-    margin-right: 10px;
+    margin: 10px 5px; /* Spacing around buttons */
+    font-size: 0.9em; /* Smaller font size for buttons */
 }
 
 .content {
     display: flex;
     align-items: flex-start;
+    justify-content: center;
     margin-top: 20px;
+    text-align: left;
 }
 
 .teaser-image {
