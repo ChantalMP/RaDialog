@@ -20,14 +20,41 @@
                 <source src="figs/RaDialog_demo copy.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+
             <div>
                 <p class="abstract">Conversational AI tools that can generate and discuss clinically correct radiology reports for a given medical image have the potential to transform radiology. Such a human-in-the-loop radiology assistant could facilitate a collaborative diagnostic process, thus saving time and improving the quality of reports. Towards this goal, we introduce RaDialog, the first thoroughly evaluated and publicly available large vision-language model for radiology report generation and interactive dialog. RaDialog effectively integrates visual image features and structured pathology findings with a large language model (LLM) while simultaneously adapting it to a specialized domain using parameter-efficient fine-tuning. To keep the conversational abilities of the underlying LLM, we propose a comprehensive, semi-automatically labeled, image-grounded instruct dataset for chest X-ray radiology tasks. By training with this dataset, our method achieves state-of-the-art clinical correctness in report generation and shows impressive abilities in interactive tasks such as correcting reports and answering questions, serving as a foundational step toward clinical dialog systems.</p>
             </div>
 
             <div class="section">
                 <h2 class="subtitle">Method Overview</h2>
-                <p>Content of the new section goes here...</p>
+                <img src="figs/model.png" alt="teaser" class="teaser-image">
+                <ul>
+                    <li>RaDialog integrates both image features and structured pathology labels for clinically correct report generation.</li>
+                    <li>The image information is integrated with a large language model enabling conversational downstream tasks.</li>
+                    <li>We adapt the LLM using parameter-efficient fine-tuning to teach image understanding and radiological knowledge.</li>
+                    <li>RaDialog achieves SOTA results in clinical correctness of report generation.</li>
+                </ul>
             </div>
+
+            <div class="section">
+                <h2 class="subtitle">RaDialog Instruct Dataset</h2>
+                <img src="figs/dataset.png" alt="teaser" class="teaser-image">
+                <ul>
+                    <li>We propose a diverse instruct dataset that allows us to keep the general capacities of LLMs while learning radiology-specific knowledge and style.</li>
+                    <li>Our dataset includes diverse tasks from report generation to report correction and question answering. </li>
+                    <li>The dataset is constructed using a mixture of existing datasets and LLM-generated pseudo-ground truth answers.</li>
+                    <li>Training with this instruct dataset greatly improves RaDialog's performance in interactive downstream tasks.</li>
+                </ul>
+            </div>
+
+            <h2 class="bibtex-heading">BibTeX</h2>
+            <div class="bibtex-section">
+                <pre>
+                    @misc{TODO
+                    }
+                </pre>
+            </div>
+
         </div>
     </div>
 </body>

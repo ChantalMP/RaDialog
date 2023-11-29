@@ -38,11 +38,11 @@ h1 {
 }
 
 .content {
-    display: flex;
+    display: column;
     align-items: flex-start;
     justify-content: center;
     margin-top: 20px;
-    text-align: center;
+    text-align: justify;
 }
 
 .abstract {
@@ -62,10 +62,49 @@ h1 {
 }
 
 video {
-    width: 100%;       /* You can use percentages for responsive width */
-    max-width: 640px;  /* Set a max-width if you want to limit how large the video can get */
+    position: relative;
+    left: 5%;
+    width: 90%;       /* You can use percentages for responsive width */
+    max-width: 1200px; /* Limits the width to a maximum of 700px */
     height: auto;      /* 'auto' maintains the aspect ratio based on the width */
-    border: 1px solid #ddd; /* Optional: adds a border around the video */
+    border: 5px solid #ddd; /* Optional: adds a border around the video */
     border-radius: 8px; /* Optional: rounds the corners */
-    margin-bottom: 20px; /* Optional: adds space below the video */
+    margin: auto;
+}
+
+.teaser-image {
+    width: 90%;
+    margin-right: 20px;
+    margin-left: 20px;
+    height: auto;
+}
+
+ul {
+    text-align: center;
+    list-style-position: inside;
+}
+
+.bibtex-heading {
+    margin-left: 20px; /* Or any other value for alignment */
+    text-align: left;
+    /* Additional styling for the heading if needed */
+}
+
+.bibtex-section {
+    background-color: #f8f8f8; /* Light grey background */
+    border: 1px solid #ddd; /* Light grey border */
+    padding-left: 0px; /* Padding inside the container */
+    margin: 5px 5; /* Margin above and below the section */
+    text-align: left; /* Ensures content is aligned to the left */
+    margin-bottom: 50px;
+}
+
+.bibtex-section pre {
+    margin: 10px;
+    padding-left: 0px;
+    margin-left: 0px;
+    white-space: pre-wrap; /* Ensures that data is wrapped within the container */
+    word-wrap: break-word; /* Breaks the text onto the next line if needed */
+    overflow-x: auto; /* Adds a horizontal scrollbar if the content is too wide */
+    font-family: monospace; /* Typically BibTeX entries are displayed in a monospace font */
 }
