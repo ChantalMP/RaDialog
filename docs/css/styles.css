@@ -51,6 +51,17 @@ h1 {
 }
 
 .abstract {
-    font-size: 0.9em;
+    font-size: 1.2em;
     color: #444;
+}
+
+.section {
+    text-align: center; /* Centers everything in the section */
+    margin: 40px 0; /* Adds spacing around the section */
+}
+
+.subtitle {
+    font-size: 1.5em; /* Larger font size for the subtitle */
+    color: #333; /* Subtitle color */
+    margin-bottom: 20px; /* Spacing below the subtitle */
 }
