@@ -13,27 +13,38 @@ body {
     overflow: hidden;
 }
 
-h2 {
+h1 {
+    font-size: 2em;
     color: #333;
 }
 
-.paper-link {
-    display: block;
+.university {
+    font-style: italic;
+    color: #555;
+}
+
+.button {
+    display: inline-block;
     background: #333;
     color: #fff;
     padding: 10px 15px;
-    text-align: center;
     text-decoration: none;
-    margin-bottom: 20px;
+    border-radius: 15px;
+    margin-right: 10px;
 }
 
 .content {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
 }
 
 .teaser-image {
-    width: 50%;
-    margin-left: 20px;
+    width: 40%;
+    margin-right: 20px;
+}
+
+.abstract {
+    font-size: 0.9em;
+    color: #444;
 }
