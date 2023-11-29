@@ -62,15 +62,16 @@ h1 {
 }
 
 video {
-    position: relative;
-    left: 5%;
-    width: 90%;       /* You can use percentages for responsive width */
-    max-width: 1200px; /* Limits the width to a maximum of 700px */
-    height: auto;      /* 'auto' maintains the aspect ratio based on the width */
-    border: 5px solid #ddd; /* Optional: adds a border around the video */
-    border-radius: 8px; /* Optional: rounds the corners */
-    margin: auto;
+    display: block;        /* Use block display for enabling margin auto */
+    width: 90%;            /* Responsive width */
+    max-width: 1200px;     /* Maximum width */
+    height: auto;          /* Maintain aspect ratio */
+    border: 5px solid #ddd; /* Optional border */
+    border-radius: 8px;    /* Optional border radius */
+    margin-left: auto;     /* Auto margin on the left */
+    margin-right: auto;    /* Auto margin on the right */
 }
+
 
 .teaser-image {
     width: 90%;
