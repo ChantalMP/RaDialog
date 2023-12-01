@@ -13,8 +13,8 @@
             <p class="authors"> <a href="https://www.cs.cit.tum.de/camp/members/chantal-pellegrini/">Chantal Pellegrini*</a>, <a href="https://www.cs.cit.tum.de/camp/members/ege-oezsoy/">Ege Özsoy*</a>, <a href="https://www.cs.cit.tum.de/camp/members/benjamin-busam-1/">Benjamin Busam</a>, <a href="https://www.cs.cit.tum.de/camp/members/cv-nassir-navab/nassir-navab/">Nassir Navab</a>, <a href="https://www.cs.cit.tum.de/camp/members/matthias-keicher/">Matthias Keicher</a></p>
             <p class="university">Technical University of Munich</p>
         </div>
-        <a href="LINK_TO_ARXIV" class="button">Arxiv</a>
-        <a href="LINK_TO_CODE_REPO" class="button">Code</a>
+        <a href="https://arxiv.org/abs/2311.18681" class="button">Arxiv</a>
+        <a href="https://github.com/ChantalMP/RaDialog" class="button">Code</a>
         <div class="content">
             <video autoplay loop muted>
                 <source src="figs/RaDialog_demo copy.mp4" type="video/mp4">
@@ -22,6 +22,7 @@
             </video>
 
             <div>
+                <h2 class="subtitle">Abstract</h2>
                 <p class="abstract">Conversational AI tools that can generate and discuss clinically correct radiology reports for a given medical image have the potential to transform radiology. Such a human-in-the-loop radiology assistant could facilitate a collaborative diagnostic process, thus saving time and improving the quality of reports. Towards this goal, we introduce RaDialog, the first thoroughly evaluated and publicly available large vision-language model for radiology report generation and interactive dialog. RaDialog effectively integrates visual image features and structured pathology findings with a large language model (LLM) while simultaneously adapting it to a specialized domain using parameter-efficient fine-tuning. To keep the conversational abilities of the underlying LLM, we propose a comprehensive, semi-automatically labeled, image-grounded instruct dataset for chest X-ray radiology tasks. By training with this dataset, our method achieves state-of-the-art clinical correctness in report generation and shows impressive abilities in interactive tasks such as correcting reports and answering questions, serving as a foundational step toward clinical dialog systems.</p>
             </div>
 
@@ -50,7 +51,13 @@
             <h2 class="bibtex-heading">BibTeX</h2>
             <div class="bibtex-section">
                 <pre>
-                    @misc{TODO
+                    @misc{pellegrini2023radialog,
+                          title={RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance}, 
+                          author={Chantal Pellegrini and Ege Özsoy and Benjamin Busam and Nassir Navab and Matthias Keicher},
+                          year={2023},
+                          eprint={2311.18681},
+                          archivePrefix={arXiv},
+                          primaryClass={cs.CV}
                     }
                 </pre>
             </div>
