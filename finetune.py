@@ -81,6 +81,7 @@ class InstructTrainer(transformers.Trainer):
         return BalancedSampler(self.rep_idxs, self.inst_idxs)
 
 WEIGHTS_NAME = "pytorch_model.bin"
+WEIGHTS_NAME_FINAL = "adapter_model.bin"
 TRAINING_ARGS_NAME = "training_args.bin"
 class ImgTrainer(transformers.Trainer): #also save img projector
     def _save(self, output_dir: Optional[str] = None, state_dict=None):
@@ -115,6 +116,38 @@ class ImgTrainer(transformers.Trainer): #also save img projector
 
         # Good practice: save your training arguments together with the trained model
         torch.save(self.args, os.path.join(output_dir, TRAINING_ARGS_NAME))
+
+
+def save_pretrained(model, save_directory, **kwargs):
+    r"""
+    This function saves the adapter model and the adapter configuration files to a directory, so that it can be
+    reloaded using the [`LoraModel.from_pretrained`] class method, and also used by the [`LoraModel.push_to_hub`]
+    method.
+
+    Args:
+        save_directory (`str`):
+            Directory where the adapter model and configuration files will be saved (will be created if it does not
+            exist).
+        kwargs (additional keyword arguments, *optional*):
+            Additional keyword arguments passed along to the `push_to_hub` method.
+    """
+    if os.path.isfile(save_directory):
+        raise ValueError(f"Provided path ({save_directory}) should be a directory, not a file")
+    os.makedirs(save_directory, exist_ok=True)
+
+    # save only the trainable weights
+    output_state_dict = get_peft_model_state_dict(model, kwargs.get("state_dict", None))
+    base_state_dict = model.base_model.state_dict()
+    if 'model.model.img_proj_layer.weight' in base_state_dict:
+        output_state_dict['base_model.model.model.img_proj_layer.weight'] = base_state_dict['model.model.img_proj_layer.weight']
+        output_state_dict['base_model.model.model.img_proj_layer.bias'] = base_state_dict['model.model.img_proj_layer.bias']
+
+    torch.save(output_state_dict, os.path.join(save_directory, WEIGHTS_NAME_FINAL))
+
+    inference_mode = model.peft_config.inference_mode
+    model.peft_config.inference_mode = True
+    model.peft_config.save_pretrained(save_directory)
+    model.peft_config.inference_mode = inference_mode
 
 
 def train(
@@ -284,7 +317,11 @@ def train(
         task_type="CAUSAL_LM",
     )
 
-    model = get_peft_model(model, config)
+    model = get_peft_model(model, config) #this sets requires_grad for all params to False
+    # unfreeze the img_proj_layer
+    model.model.base_model.img_proj_layer.weight.requires_grad = True
+    model.model.base_model.img_proj_layer.bias.requires_grad = True
+
     print("Loading data from ", data_path)
     if data_path.endswith(".json") or data_path.endswith(".jsonl"):
         data = load_dataset("json", data_files=data_path)
@@ -430,7 +467,7 @@ def train(
 
     trainer.train(resume_from_checkpoint=resume_from_checkpoint)
 
-    model.save_pretrained(output_dir)
+    save_pretrained(model, output_dir)
 
     print(
         "\n If there's a warning about missing keys above, please disregard :)"
