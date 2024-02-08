@@ -1,61 +1,264 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- adapted from https://github.com/eliahuhorwitz/Academic-project-page-template -->
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RaDialog</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance">
+  <meta property="og:title" content="RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance"/>
+  <meta property="og:description" content="Conversational AI tools that can generate and discuss clinically correct radiology reports for a given medical image have the potential to transform radiology. Such a human-in-the-loop radiology assistant could facilitate a collaborative diagnostic process, thus saving time and improving the quality of reports. Towards this goal, we introduce RaDialog, the first thoroughly evaluated and publicly available large vision-language model for radiology report generation and interactive dialog. RaDialog effectively integrates visual image features and structured pathology findings with a large language model (LLM) while simultaneously adapting it to a specialized domain using parameter-efficient fine-tuning. To keep the conversational abilities of the underlying LLM, we propose a comprehensive, semi-automatically labeled, image-grounded instruct dataset for chest X-ray radiology tasks. By training with this dataset, our method achieves state-of-the-art clinical correctness in report generation and shows impressive abilities in interactive tasks such as correcting reports and answering questions, serving as a foundational step toward clinical dialog systems."/>
+  <meta property="og:url" content="https://chantalmp.github.io/RaDialog/"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/images/example.png" />
+  <meta property="og:image:width" content="1462"/>
+  <meta property="og:image:height" content="1269"/>
+
+
+  <meta name="twitter:title" content="RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance">
+  <meta name="twitter:description" content="Conversational AI tools that can generate and discuss clinically correct radiology reports for a given medical image have the potential to transform radiology. Such a human-in-the-loop radiology assistant could facilitate a collaborative diagnostic process, thus saving time and improving the quality of reports. Towards this goal, we introduce RaDialog, the first thoroughly evaluated and publicly available large vision-language model for radiology report generation and interactive dialog. RaDialog effectively integrates visual image features and structured pathology findings with a large language model (LLM) while simultaneously adapting it to a specialized domain using parameter-efficient fine-tuning. To keep the conversational abilities of the underlying LLM, we propose a comprehensive, semi-automatically labeled, image-grounded instruct dataset for chest X-ray radiology tasks. By training with this dataset, our method achieves state-of-the-art clinical correctness in report generation and shows impressive abilities in interactive tasks such as correcting reports and answering questions, serving as a foundational step toward clinical dialog systems.">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/example.png">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="Radiology AI, Chatbot, Large Language Model, Vison-Language Model, ChatGPT, GPT4-Vision, Medical Image Analysis, AI in Healthcare, Clinical Report Generation, Radiology Report Automation, AI-Powered Diagnosis, Conversational AI in Medicine, Medical Imaging Technology, AI Radiology Assistant, Healthcare Technology Innovation, Interactive Radiology Reports, Medical Data Analysis AI, Diagnostic AI Tools, Machine Learning in Radiology">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="title-section">
-            <h1>RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance</h1>
-            <p class="authors"> <a href="https://www.cs.cit.tum.de/camp/members/chantal-pellegrini/">Chantal Pellegrini*</a>, <a href="https://www.cs.cit.tum.de/camp/members/ege-oezsoy/">Ege Özsoy*</a>, <a href="https://www.cs.cit.tum.de/camp/members/benjamin-busam-1/">Benjamin Busam</a>, <a href="https://www.cs.cit.tum.de/camp/members/cv-nassir-navab/nassir-navab/">Nassir Navab</a>, <a href="https://www.cs.cit.tum.de/camp/members/matthias-keicher/">Matthias Keicher</a></p>
-            <p class="university">Technical University of Munich</p>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://www.cs.cit.tum.de/camp/members/chantal-pellegrini/" target="_blank">Chantal Pellegrini</a><sup>*</sup>,</span>
+                <span class="author-block">
+                  <a href="https://www.cs.cit.tum.de/camp/members/ege-oezsoy/" target="_blank">Ege Özsoy</a><sup>*</sup>,</span>
+                  <span class="author-block">
+                    <a href="https://www.cs.cit.tum.de/camp/members/benjamin-busam-1/" target="_blank">Benjamin Busam</a>,
+                  </span>
+                  <span class="author-block">
+                    <a href="https://www.cs.cit.tum.de/camp/members/cv-nassir-navab/nassir-navab/" target="_blank">Nassir Navab</a>,
+                  </span>
+                  <span class="author-block">
+                    <a href="https://www.cs.cit.tum.de/camp/members/matthias-keicher/" target="_blank">Matthias Keicher</a>
+                  </span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block">Computer Aided Medical Procedures, </br>Technical University of Munich</span>
+                    <span class="eql-cntrb"><small><br><sup>*</sup>Indicates equal contribution.</small></span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- Arxiv PDF link -->
+                      <span class="link-block">
+                        <a href="https://arxiv.org/pdf/2311.18681.pdf" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                    <!-- Supplementary PDF link -->
+                    <!-- <span class="link-block">
+                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Supplementary</span>
+                      </a>
+                    </span> -->
+
+                  <!-- Github link -->
+                  <span class="link-block">
+                    <a href="https://github.com/ChantalMP/RaDialog" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- ArXiv abstract Link -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2311.18681" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+          </div>
         </div>
-        <a href="LINK_TO_ARXIV" class="button">Arxiv</a>
-        <a href="LINK_TO_CODE_REPO" class="button">Code</a>
-        <div class="content">
-            <video autoplay loop muted>
-                <source src="figs/RaDialog_demo copy.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-
-            <div>
-                <p class="abstract">Conversational AI tools that can generate and discuss clinically correct radiology reports for a given medical image have the potential to transform radiology. Such a human-in-the-loop radiology assistant could facilitate a collaborative diagnostic process, thus saving time and improving the quality of reports. Towards this goal, we introduce RaDialog, the first thoroughly evaluated and publicly available large vision-language model for radiology report generation and interactive dialog. RaDialog effectively integrates visual image features and structured pathology findings with a large language model (LLM) while simultaneously adapting it to a specialized domain using parameter-efficient fine-tuning. To keep the conversational abilities of the underlying LLM, we propose a comprehensive, semi-automatically labeled, image-grounded instruct dataset for chest X-ray radiology tasks. By training with this dataset, our method achieves state-of-the-art clinical correctness in report generation and shows impressive abilities in interactive tasks such as correcting reports and answering questions, serving as a foundational step toward clinical dialog systems.</p>
-            </div>
-
-            <div class="section">
-                <h2 class="subtitle">Method Overview</h2>
-                <img src="figs/model.png" alt="teaser" class="teaser-image">
-                <ul>
-                    <li>RaDialog integrates both image features and structured pathology labels for clinically correct report generation.</li>
-                    <li>The image information is integrated with a large language model enabling conversational downstream tasks.</li>
-                    <li>We adapt the LLM using parameter-efficient fine-tuning to teach image understanding and radiological knowledge.</li>
-                    <li>RaDialog achieves SOTA results in clinical correctness of report generation.</li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <h2 class="subtitle">RaDialog Instruct Dataset</h2>
-                <img src="figs/dataset.png" alt="teaser" class="teaser-image">
-                <ul>
-                    <li>We propose a diverse instruct dataset that allows us to keep the general capacities of LLMs while learning radiology-specific knowledge and style.</li>
-                    <li>Our dataset includes diverse tasks from report generation to report correction and question answering. </li>
-                    <li>The dataset is constructed using a mixture of existing datasets and LLM-generated pseudo-ground truth answers.</li>
-                    <li>Training with this instruct dataset greatly improves RaDialog's performance in interactive downstream tasks.</li>
-                </ul>
-            </div>
-
-            <h2 class="bibtex-heading">BibTeX</h2>
-            <div class="bibtex-section">
-                <pre>
-                    @misc{TODO
-                    }
-                </pre>
-            </div>
-
-        </div>
+      </div>
     </div>
-</body>
-</html>
+  </div>
+</section>
+
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video poster="" id="tree" autoplay controls muted loop height="100%">
+        <!-- Your video here -->
+        <source src="static/videos/RaDialog_demo.mp4"
+        type="video/mp4">
+      </video>
+      <!-- <h2 class="subtitle has-text-centered">
+        RaDialog generates the finding section for a given chest X-ray image and allows for interactive dialog.
+      </h2> -->
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+<!-- <section class="section hero"> -->
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Conversational AI tools that can generate and discuss clinically correct radiology reports for a given medical image have the potential to transform radiology. Such a human-in-the-loop radiology assistant could facilitate a collaborative diagnostic process, thus saving time and improving the quality of reports. Towards this goal, we introduce RaDialog, the first thoroughly evaluated and publicly available large vision-language model for radiology report generation and interactive dialog. RaDialog effectively integrates visual image features and structured pathology findings with a large language model (LLM) while simultaneously adapting it to a specialized domain using parameter-efficient fine-tuning. To keep the conversational abilities of the underlying LLM, we propose a comprehensive, semi-automatically labeled, image-grounded instruct dataset for chest X-ray radiology tasks. By training with this dataset, our method achieves state-of-the-art clinical correctness in report generation and shows impressive abilities in interactive tasks such as correcting reports and answering questions, serving as a foundational step toward clinical dialog systems.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Methodology</h2>
+        <img src="static/images/model.png"> </img>
+        <div class="content has-text-justified">
+          RaDialog integrates both image features and structured pathology labels for clinically correct report generation, along with the integration of image information with a large language model to enable conversational downstream tasks. Additionally, the LLM is adapted using parameter-efficient fine-tuning for teaching image understanding and radiological knowledge. RaDialog has achieved state-of-the-art results in the clinical correctness of report generation.
+        </div>
+        <div class="methodology-image">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">RaDialog Instruct Dataset</h2>
+        <img src="static/images/dataset.png"> </img>
+        <div class="content has-text-justified">
+          Regarding the RaDialog Instruct Dataset, it includes a proposal for a diverse instruct dataset that maintains the general capacities of LLMs while imparting radiology-specific knowledge and style. This dataset encompasses a variety of tasks ranging from report generation to report correction and question answering. It is uniquely constructed using a combination of existing datasets and LLM-generated pseudo-ground truth answers. Importantly, training with this instruct dataset has significantly enhanced RaDialog's performance in interactive downstream tasks.
+        </div>
+        <div class="methodology-image">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@misc{pellegrini2023radialog,
+      title={RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance}, 
+      author={Chantal Pellegrini and Ege Özsoy and Benjamin Busam and Nassir Navab and Matthias Keicher},
+      year={2023},
+      eprint={2311.18681},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered is-vcentered">
+          <a class="icon-link" href="https://arxiv.org/pdf/2311.18681.pdf">
+            <span class="icon">
+              <i class="fas fa-file-pdf"></i>
+            </span>
+        </a>
+        <a class="icon-link" href="https://github.com/ChantalMP/RaDialog" disabled="">
+          <span class="icon">
+            <i class="fab fa-github"></i>
+          </span>
+        </a>
+        <!-- <a class="icon-link" href="https://arxiv.org/abs/2311.18681" disabled="">
+          <span class="icon">
+            <i class="ai ai-arxiv"></i>
+          </span>
+        </a> -->
+      </div>
+        <div class="content">
+          <p style="font-size: 9pt; text-align: center">
+            The authors gratefully acknowledge the financial support by the Federal Ministry of Education and Research of Germany (BMBF) under project DIVA (13GW0469C) and the Bavarian Ministry of Economic Affairs, Regional Development and Energy (StMWi) under project ThoraXAI (DIK-2302-0002).
+            </br></br>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            </br>
+            This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
