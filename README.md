@@ -1,5 +1,5 @@
 ## RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance
-**Authors**: [Chantal Pellegrini*][cp], [Ege Özsoy*][eo], [Benjamin Busam][bb], [Nassir Navab][nn], [Matthias Keicher][mk]
+**Authors:** [Chantal Pellegrini*][cp], [Ege Özsoy*][eo], [Benjamin Busam][bb], [Nassir Navab][nn], [Matthias Keicher][mk]
 
 [cp]:https://www.cs.cit.tum.de/camp/members/chantal-pellegrini/
 [eo]:https://www.cs.cit.tum.de/camp/members/ege-oezsoy/
@@ -7,7 +7,11 @@
 [nn]:https://www.cs.cit.tum.de/camp/members/cv-nassir-navab/nassir-navab/
 [bb]:https://www.cs.cit.tum.de/camp/members/benjamin-busam-1/
 
-[![](https://img.shields.io/badge/Project_Page-green)](https://chantalmp.github.io/RaDialog/) [![](https://img.shields.io/badge/Arxiv-2307.05766-blue)](https://arxiv.org/abs/2311.18681) [![](https://img.shields.io/badge/PhysioNet-Dataset_Coming_Soon-lightgrey)](TODO)
+[![](https://img.shields.io/badge/Project_Page-green)](https://chantalmp.github.io/RaDialog/) [![](https://img.shields.io/badge/Arxiv-2307.05766-blue)](https://arxiv.org/abs/2311.18681) [![](https://img.shields.io/badge/PhysioNet-Dataset-lightgrey)](https://physionet.org/content/radialog-instruct-dataset/1.0.0/)
+
+**✨ News ✨**
+- 26 March 2024: RaDialog Instruct Dataset now available on [PhysioNet](https://physionet.org/content/radialog-instruct-dataset/1.0.0/)! 
+---
 
 <img align="right" src="figs/example.png" alt="teaser" width="50%" style="margin-left: 20px">
 
