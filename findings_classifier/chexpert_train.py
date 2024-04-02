@@ -213,7 +213,7 @@ if __name__ == '__main__':
     if TRAIN:
         class_weights = torch.tensor(train_dataset.get_class_weights(), dtype=torch.float32)
         # Define the model
-        lit_model = LitIGClassifier(num_classes, class_weights, class_names, learning_rate=args.lr)
+        lit_model = LitIGClassifier(num_classes, class_names=class_names, class_weights=class_weights, learning_rate=args.lr)
         print(summary(lit_model))
 
         # WandB logger
