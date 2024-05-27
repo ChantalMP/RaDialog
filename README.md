@@ -108,4 +108,4 @@ Train RaDialog-INS:
 
 To use a model from a checkpoint, you'll need to perform the following steps:
 - make a copy of "pytorch_model.bin" and rename it to "adapter_model.bin"
-- copy adapter_config.json to the checkpoint folder (it will be generated after the last epoch or you can copy it from the checkpoints we provide)
+- copy adapter_config.json to the checkpoint folder (it will be generated after the last epoch or you can copy it from the checkpoints we provide) 
