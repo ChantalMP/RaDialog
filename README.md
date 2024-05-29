@@ -10,8 +10,8 @@
 [![](https://img.shields.io/badge/Project_Page-green)](https://chantalmp.github.io/RaDialog/) [![](https://img.shields.io/badge/Arxiv-2307.05766-blue)](https://arxiv.org/abs/2311.18681) [![](https://img.shields.io/badge/PhysioNet-Dataset-lightgrey)](https://physionet.org/content/radialog-instruct-dataset/1.0.0/)
 
 **✨ News ✨**
+- 29 May 2024: The LLaVA version of RaDialog is now publically available on [Huggingface](https://huggingface.co/ChantalPellegrini/RaDialog-interactive-radiology-report-generation) and [Github](https://github.com/ChantalMP/RaDialog_LLaVA). This new version is much better in conversational assistance, easier to use and allows a simple inference setup with huggingface!
 - 26 March 2024: RaDialog Instruct Dataset now available on [PhysioNet](https://physionet.org/content/radialog-instruct-dataset/1.0.0/)!
-- 29 May 2024: The LLaVA version of RaDialog is now publically available on [Huggingface](https://huggingface.co/ChantalPellegrini/RaDialog-interactive-radiology-report-generation) and [Github](https://github.com/ChantalMP/RaDialog_LLaVA). This improved version is easier to use and train and allows a simple inference setup with huggingface!
 ---
 
 <img align="right" src="figs/example.png" alt="teaser" width="50%" style="margin-left: 20px">
