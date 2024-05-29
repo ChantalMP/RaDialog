@@ -109,3 +109,15 @@ Train RaDialog-INS:
 To use a model from a checkpoint, you'll need to perform the following steps:
 - make a copy of "pytorch_model.bin" and rename it to "adapter_model.bin"
 - copy adapter_config.json to the checkpoint folder (it will be generated after the last epoch or you can copy it from the checkpoints we provide) 
+
+## Reference
+When using our model or dataset, please cite:
+
+```
+@article{pellegrini2023radialog,
+  title={RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance},
+  author={Pellegrini, Chantal and {\"O}zsoy, Ege and Busam, Benjamin and Navab, Nassir and Keicher, Matthias},
+  journal={arXiv preprint arXiv:2311.18681},
+  year={2023}
+}
+```
