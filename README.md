@@ -7,10 +7,12 @@
 [nn]:https://www.cs.cit.tum.de/camp/members/cv-nassir-navab/nassir-navab/
 [bb]:https://www.cs.cit.tum.de/camp/members/benjamin-busam-1/
 
-[![](https://img.shields.io/badge/Project_Page-green)](https://chantalmp.github.io/RaDialog/) [![](https://img.shields.io/badge/Arxiv-2307.05766-blue)](https://arxiv.org/abs/2311.18681) [![](https://img.shields.io/badge/PhysioNet-Dataset-lightgrey)](https://physionet.org/content/radialog-instruct-dataset/1.0.0/)
+[![](https://img.shields.io/badge/Project_Page-green)](https://chantalmp.github.io/RaDialog/) [![](https://img.shields.io/badge/Arxiv-2307.05766-blue)](https://arxiv.org/abs/2311.18681) [![](https://img.shields.io/badge/PhysioNet-Dataset-lightgrey)](https://physionet.org/content/radialog-instruct-dataset/1.1.0/) [![](https://img.shields.io/badge/Github-LLaVA_version-lightblue)](https://github.com/ChantalMP/RaDialog_LLaVA)
 
 **✨ News ✨**
-- 26 March 2024: RaDialog Instruct Dataset now available on [PhysioNet](https://physionet.org/content/radialog-instruct-dataset/1.0.0/)! 
+- 12 July 2024: We published a **new version of our Instruct Datset** including additional tasks on [PhysioNet](https://physionet.org/content/radialog-instruct-dataset/1.1.0/)
+- 29 May 2024: The **LLaVA version of RaDialog** is now publically available on [Huggingface](https://huggingface.co/ChantalPellegrini/RaDialog-interactive-radiology-report-generation) and [Github](https://github.com/ChantalMP/RaDialog_LLaVA). This new version is much **better in conversational assistance**, **easier to use** and allows a simple **inference setup with huggingface**!
+- 26 March 2024: RaDialog Instruct Dataset now available on [PhysioNet](https://physionet.org/content/radialog-instruct-dataset/1.0.0/)!
 ---
 
 <img align="right" src="figs/example.png" alt="teaser" width="50%" style="margin-left: 20px">
@@ -108,4 +110,16 @@ Train RaDialog-INS:
 
 To use a model from a checkpoint, you'll need to perform the following steps:
 - make a copy of "pytorch_model.bin" and rename it to "adapter_model.bin"
-- copy adapter_config.json to the checkpoint folder (it will be generated after the last epoch or you can copy it from the checkpoints we provide)
+- copy adapter_config.json to the checkpoint folder (it will be generated after the last epoch or you can copy it from the checkpoints we provide) 
+
+## Reference
+When using our model or dataset, please cite:
+
+```
+@article{pellegrini2023radialog,
+  title={RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance},
+  author={Pellegrini, Chantal and {\"O}zsoy, Ege and Busam, Benjamin and Navab, Nassir and Keicher, Matthias},
+  journal={arXiv preprint arXiv:2311.18681},
+  year={2023}
+}
+```
