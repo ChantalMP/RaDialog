@@ -1,5 +1,5 @@
 ## RaDialog: A Large Vision-Language Model for Radiology Report Generation and Conversational Assistance
-**Authors:** [Chantal Pellegrini*][cp], [Ege Özsoy][eo], [Benjamin Busam][bb], [Nassir Navab][nn], [Matthias Keicher][mk]
+**Authors:** [Chantal Pellegrini][cp], [Ege Özsoy][eo], [Benjamin Busam][bb], [Nassir Navab][nn], [Matthias Keicher][mk]
 
 [cp]:https://www.cs.cit.tum.de/camp/members/chantal-pellegrini/
 [eo]:https://www.cs.cit.tum.de/camp/members/ege-oezsoy/
