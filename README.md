@@ -11,7 +11,7 @@
 
 **✨ News ✨**
 - 27 March 2025: RaDialog has been accepted to MIDL 2025: The new paper includes additional experiments and details about [RaDialog_v2](https://github.com/ChantalMP/RaDialog_LLaVA) and can be found on [OpenReview](https://openreview.net/pdf?id=trUvr1gSNI)
-- 12 July 2024: We published a **new version of our Instruct Datset** including additional tasks on [PhysioNet](https://physionet.org/content/radialog-instruct-dataset/1.1.0/)
+- 12 July 2024: We published a **new version of our Instruct Dataset** including additional tasks on [PhysioNet](https://physionet.org/content/radialog-instruct-dataset/1.1.0/)
 - 29 May 2024: The **new and improved version of RaDialog** is now publically available on [Huggingface](https://huggingface.co/ChantalPellegrini/RaDialog-interactive-radiology-report-generation) and [Github](https://github.com/ChantalMP/RaDialog_LLaVA). This new version is much **better in conversational assistance**, **easier to use** and allows a simple **inference setup with huggingface**!
 - 26 March 2024: RaDialog Instruct Dataset now available on [PhysioNet](https://physionet.org/content/radialog-instruct-dataset/1.0.0/)!
 ---
